@@ -1,0 +1,6 @@
+@sahla_HostAddress = http://localhost:5131
+
+GET {{sahla_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

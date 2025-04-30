@@ -13,9 +13,7 @@ namespace sahla.Models
         public int PointsReward { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime? CompletedAt { get; set; }
-
-        // Foreign key
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
     }
 

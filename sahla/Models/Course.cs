@@ -15,6 +15,9 @@ namespace sahla.Models
         public string ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
 
+        public string TeacherId { get; set; } // ✅ New line
+
+
         // Navigation properties
         public ICollection<Lesson> Lessons { get; set; }
         public ICollection<Test> Tests { get; set; }

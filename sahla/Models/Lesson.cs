@@ -11,6 +11,8 @@ namespace sahla.Models
         public string Title { get; set; }
         public string ContentType { get; set; }
         public string ContentUrl { get; set; }
+        public string Section { get; set; } 
+
         public int LessonOrder { get; set; }
         public DateTime CreatedAt { get; set; }
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/sahla-frontend/User/css/login.css">
+</head>
+<body>
+    <div class="login-container" id="loginForm">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+            <p class="error-message" id="loginError"></p>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <div class="form-group checkbox-group">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Remember me</label>
+        </div>
+        <button class="login-btn">Login</button>
+        <button class="register-btn">Register</button>
+        <button class="google-btn" id="googleLogin">
+            <span class="google-icon">G</span> Login with Google
+        </button>
+        <a href="#" class="forgot-password">Forgot your password?</a>
+    </div>
+    <script src="/sahla-frontend/User/js/app.js"></script>
+</body>
+</html>

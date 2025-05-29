@@ -1,0 +1,115 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.login-container, .register-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input {
+    margin-right: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.primary-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.register-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+}
+.register-btn:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.google-btn {
+    background-color: #fff;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.google-btn:hover {
+    background-color: #ff4d4d;
+    color: #fff;
+}
+
+.google-icon {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.forgot-password {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}

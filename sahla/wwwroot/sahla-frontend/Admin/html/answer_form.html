@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Answer - Admin Dashboard</title>
+    <link rel="stylesheet" href="/sahla-frontend/Admin/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="users.html">Users</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="challenges.html">Challenges</a></li>
+                    <li><a href="badges.html">Badges</a></li>
+                    <li><a href="lessons.html">Lessons</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                    <li><a href="tests.html">Tests</a></li>
+                    <li><a href="questions.html">Questions</a></li>
+                    <li><a href="answers.html" class="active">Answers</a></li>
+                    <li><a href="logout.html">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Add/Edit Answer</h1>
+            </header>
+            <section class="form-section">
+                <form id="answerForm" method="POST">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label for="answerText">Answer Text</label>
+                        <input type="text" id="answerText" name="answerText" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="isCorrect">Correct</label>
+                        <input type="checkbox" id="isCorrect" name="isCorrect">
+                    </div>
+                    <div class="form-group">
+                        <label for="questionId">Question</label>
+                        <select id="questionId" name="questionId" required>
+                            <option value="">Select Question</option>
+                            <!-- Populated by backend -->
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="answers.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            fetch(`/api/answers/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('[name="id"]').value = data.answerId;
+                    document.querySelector('[name="answerText"]').value = data.answerText;
+                    document.querySelector('[name="isCorrect"]').checked = data.isCorrect;
+                    document.querySelector('[name="questionId"]').value = data.questionId;
+                });
+            document.querySelector('#answerForm').action = `/api/answers/${id}`;
+            document.querySelector('#answerForm').method = 'PUT';
+        } else {
+            document.querySelector('#answerForm').action = '/api/answers';
+        }
+    </script>
+</body>
+</html>

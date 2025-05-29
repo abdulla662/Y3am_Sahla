@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+.search-bar {
+    margin-top: 70px;
+    padding: 20px;
+    text-align: center;
+}
+.search-input {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+.search-input:focus {
+    border-color: #ff8c00; /* Orange border on focus */
+}
+.challenges {
+    margin-top: 20px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.challenge {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 15px;
+    transition: transform 0.3s, border 0.3s;
+}
+.challenge:hover {
+    transform: translateY(-5px);
+    border: 2px solid #ff8c00; /* Orange border on hover */
+}
+.challenge-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+.challenge-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+.challenge-level {
+    font-size: 13px;
+    color: #007bff;
+    background-color: #e7f1ff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress {
+    height: 100%;
+    background-color: #ff8c00; /* Orange fill for progress */
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    transition: width 0.3s;
+}

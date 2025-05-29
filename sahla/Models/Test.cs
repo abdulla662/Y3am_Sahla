@@ -10,7 +10,8 @@ namespace sahla.Models
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }=DateTime.Now.ToLocalTime();
+        public string Partition { get; set; } 
 
         // Foreign key
         public int CourseId { get; set; }

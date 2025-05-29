@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+.hero-section {
+    margin-top: 60px;
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.hero-section h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.hero-section p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+}
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff8c00;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.cta-button:hover {
+    background-color: #e07b00;
+}
+.featured-courses, .challenges-section {
+    padding: 30px 20px;
+    text-align: center;
+}
+.featured-courses h2, .challenges-section h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.courses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.course {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    overflow: hidden;
+    transition: transform 0.3s, border 0.3s;
+}
+.course:hover {
+    transform: translateY(-5px);
+    border: 2px solid #ff8c00;
+}
+.course-image {
+    width: 100%;
+    height: 150px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #666;
+    background-size: cover;
+    background-position: center;
+}
+.course-content {
+    padding: 15px;
+}
+.course-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+.instructor {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+.description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+.level, .category, .challenge-level {
+    font-size: 13px;
+    color: #007bff;
+    background-color: #e7f1ff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.challenges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.challenge {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 15px;
+    transition: transform 0.3s, border 0.3s;
+}
+.challenge:hover {
+    transform: translateY(-5px);
+    border: 2px solid #ff8c00;
+}
+.challenge-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+.challenge-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}

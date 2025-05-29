@@ -9,7 +9,7 @@ namespace sahla.Models
         public string? Adress { get; set; }
 
         public int Points { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }=DateTime.UtcNow;
 
         public ICollection<Progress> Progresses { get; set; }
         public ICollection<Badge> Badges { get; set; }

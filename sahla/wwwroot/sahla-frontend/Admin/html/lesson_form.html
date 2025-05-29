@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Lesson - Admin Dashboard</title>
+    <link rel="stylesheet" href="/sahla-frontend/Admin/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="users.html">Users</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="challenges.html">Challenges</a></li>
+                    <li><a href="badges.html">Badges</a></li>
+                    <li><a href="lessons.html" class="active">Lessons</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                    <li><a href="tests.html">Tests</a></li>
+                    <li><a href="questions.html">Questions</a></li>
+                    <li><a href="answers.html">Answers</a></li>
+                    <li><a href="logout.html">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Add/Edit Lesson</h1>
+            </header>
+            <section class="form-section">
+                <form id="lessonForm" method="POST">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contentType">Content Type</label>
+                        <select id="contentType" name="contentType" required>
+                            <option value="Video">Video</option>
+                            <option value="Text">Text</option>
+                            <option value="Quiz">Quiz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contentUrl">Content URL</label>
+                        <input type="text" id="contentUrl" name="contentUrl" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lessonOrder">Lesson Order</label>
+                        <input type="number" id="lessonOrder" name="lessonOrder" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseId">Course</label>
+                        <select id="courseId" name="courseId" required>
+                            <option value="">Select Course</option>
+                            <!-- Populated by backend -->
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="lessons.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            fetch(`/api/lessons/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('[name="id"]').value = data.lessonId;
+                    document.querySelector('[name="title"]').value = data.title;
+                    document.querySelector('[name="contentType"]').value = data.contentType;
+                    document.querySelector('[name="contentUrl"]').value = data.contentUrl;
+                    document.querySelector('[name="lessonOrder"]').value = data.lessonOrder;
+                    document.querySelector('[name="courseId"]').value = data.courseId;
+                });
+            document.querySelector('#lessonForm').action = `/api/lessons/${id}`;
+            document.querySelector('#lessonForm').method = 'PUT';
+        } else {
+            document.querySelector('#lessonForm').action = '/api/lessons';
+        }
+    </script>
+</body>
+</html>

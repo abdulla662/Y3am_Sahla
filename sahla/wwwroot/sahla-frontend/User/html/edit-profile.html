@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Platform - Edit Profile</title>
+    <link rel="stylesheet" href="/sahla-frontend/User/css/edit-profile.css">
+    <link rel="stylesheet" href="/sahla-frontend/User/css/navbar.css">
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+        <div class="profile-form">
+            <div class="form-group">
+                <label for="email">Email (Read-Only)</label>
+                <input type="email" id="email" value="user@example.com" readonly>
+            </div>
+            <div class="form-group">
+                <label for="profile-picture">Upload Profile Picture</label>
+                <input type="file" id="profile-picture" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" placeholder="Enter your address" value="123 Learning Lane">
+            </div>
+            <div class="form-group">
+                <label for="points">Points (Read-Only)</label>
+                <input type="text" id="points" value="150" readonly>
+            </div>
+            <div class="form-group">
+                <label for="created-at">Joined On (Read-Only)</label>
+                <input type="text" id="created-at" value="2025-01-15" readonly>
+            </div>
+            <button class="save-button">Save Changes</button>
+        </div>
+    </div>
+</body>
+<script>
+    fetch("/sahla-frontend/User/html/shared/navbar.html")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("navbar-placeholder").innerHTML = html;
+
+            // ✅ كود تحميل الصورة بعد إدراج الـ navbar
+            const token = localStorage.getItem("jwtToken");
+            if (!token) return;
+
+            fetch("https://localhost:7273/api/Profile/Get_Picture", {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const img = document.getElementById("profilePic");
+                    if (img && data.pictureUrl) {
+                        img.src = `https://localhost:7273${data.pictureUrl}`;
+                    }
+                })
+                .catch(err => {
+                    console.error("❌ فشل تحميل الصورة:", err.message);
+                });
+        });
+</script>
+<script src="/sahla-frontend/User/js/EditProfile.js"></script>
+</html>

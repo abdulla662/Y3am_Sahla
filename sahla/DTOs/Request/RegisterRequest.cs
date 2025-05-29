@@ -18,7 +18,6 @@ namespace sahla.DTOs.Request
 
         public string Address { get; set; }
 
-        [Required]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }

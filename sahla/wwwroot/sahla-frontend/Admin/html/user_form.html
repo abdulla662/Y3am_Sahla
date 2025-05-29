@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit User - Admin Dashboard</title>
+    <link rel="stylesheet" href="/sahla-frontend/Admin/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="users.html" class="active">Users</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="challenges.html">Challenges</a></li>
+                    <li><a href="badges.html">Badges</a></li>
+                    <li><a href="lessons.html">Lessons</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                    <li><a href="tests.html">Tests</a></li>
+                    <li><a href="questions.html">Questions</a></li>
+                    <li><a href="answers.html">Answers</a></li>
+                    <li><a href="logout.html">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Add/Edit User</h1>
+            </header>
+            <section class="form-section">
+                <form id="userForm" method="POST">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="points">Points</label>
+                        <input type="number" id="points" name="points" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="profilePicture">Profile Picture URL</label>
+                        <input type="text" id="profilePicture" name="profilePicture">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="users.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Populate form for edit
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            fetch(`/api/users/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('[name="id"]').value = data.id;
+                    document.querySelector('[name="username"]').value = data.username;
+                    document.querySelector('[name="email"]').value = data.email;
+                    document.querySelector('[name="address"]').value = data.address || '';
+                    document.querySelector('[name="points"]').value = data.points;
+                    document.querySelector('[name="profilePicture"]').value = data.profilePicture || '';
+                });
+            document.querySelector('#userForm').action = `/api/users/${id}`;
+            document.querySelector('#userForm').method = 'PUT';
+        } else {
+            document.querySelector('#userForm').action = '/api/users';
+        }
+    </script>
+</body>
+</html>

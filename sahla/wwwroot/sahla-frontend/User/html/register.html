@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="/sahla-frontend/User/css/register.css">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Create an Account</h2>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter username">
+            <p class="error-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter email">
+            <p class="error-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <p class="error-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Confirm password">
+            <p class="error-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="Enter address">
+            <p class="error-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="phone-number">Phone Number</label>
+            <input type="tel" id="phone-number" placeholder="Enter phone number">
+            <p class="error-message"></p>
+        </div>
+        <button class="register-btn primary-btn">Register</button>
+        <button class="google-btn">
+            <span class="google-icon">G</span> Sign up with Google
+        </button>
+        <a href="#" class="forgot-password">Forgot your password?</a>
+    </div>
+<script src="/sahla-frontend/User/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Platform - Home</title>
+    <link rel="stylesheet" href="/sahla-frontend/User/css/home.css">
+    <link rel="stylesheet" href="/sahla-frontend/User/css/navbar.css">
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+    <div class="hero-section">
+        <h1>Welcome to Your Learning Journey</h1>
+        <p>Explore courses, tackle challenges, and earn badges to boost your skills!</p>
+        <a href="/sahla-frontend/User/html/courses.html" class="cta-button">Browse Courses</a>
+    </div>
+    <div class="featured-courses">
+        <h2>Featured Courses</h2>
+        <div class="courses">
+            <div class="course">
+                <div class="course-image" style="background-color: #ffebee;">Python Course Image</div>
+                <div class="course-content">
+                    <div class="course-title">Introduction to Python</div>
+                    <div class="instructor">Instructor: Dr. John Smith</div>
+                    <div class="description">Learn the basics of Python programming, including variables, loops, and functions.</div>
+                    <div class="level">Beginner</div>
+                    <div class="category">Programming</div>
+                </div>
+            </div>
+            <div class="course">
+                <div class="course-image" style="background-color: #e8f5e9;">Web Dev Course Image</div>
+                <div class="course-content">
+                    <div class="course-title">Web Development Basics</div>
+                    <div class="instructor">Instructor: Prof. Emily Davis</div>
+                    <div class="description">Master HTML, CSS, and JavaScript to build responsive websites from scratch.</div>
+                    <div class="level">Intermediate</div>
+                    <div class="category">Web Development</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="challenges-section">
+        <h2>Featured Challenges</h2>
+        <div class="challenges">
+            <div class="challenge">
+                <div class="challenge-title">Python Coding Challenge</div>
+                <div class="challenge-description">Test your Python skills with 5 coding problems. Earn a badge upon completion!</div>
+                <div class="challenge-level">Beginner</div>
+            </div>
+            <div class="challenge">
+                <div class="challenge-title">Web Design Sprint</div>
+                <div class="challenge-description">Build a responsive webpage in 48 hours and showcase your creativity.</div>
+                <div class="challenge-level">Intermediate</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        fetch("/sahla-frontend/User/html/shared/navbar.html")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+
+                // ✅ كود تحميل الصورة بعد إدراج الـ navbar
+                const token = localStorage.getItem("jwtToken");
+                if (!token) return;
+
+                fetch("https://localhost:7273/api/Profile/Get_Picture", {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        const img = document.getElementById("profilePic");
+                        if (img && data.pictureUrl) {
+                            img.src = `https://localhost:7273${data.pictureUrl}`;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("❌ فشل تحميل الصورة:", err.message);
+                    });
+            });
+    </script>
+    <script src="/sahla-frontend/User/js/home.js"></script>
+</body>
+</html>

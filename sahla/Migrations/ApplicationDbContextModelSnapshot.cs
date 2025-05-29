@@ -330,7 +330,6 @@ namespace sahla.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ChallengeId");
@@ -367,6 +366,10 @@ namespace sahla.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -400,6 +403,10 @@ namespace sahla.Migrations
 
                     b.Property<int>("LessonOrder")
                         .HasColumnType("int");
+
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -484,6 +491,10 @@ namespace sahla.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Partition")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -582,9 +593,7 @@ namespace sahla.Migrations
                 {
                     b.HasOne("sahla.Models.ApplicationUser", "User")
                         .WithMany("Challenges")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Progress - Admin Dashboard</title>
+    <link rel="stylesheet" href="/sahla-frontend/Admin/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="users.html">Users</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="challenges.html">Challenges</a></li>
+                    <li><a href="badges.html">Badges</a></li>
+                    <li><a href="lessons.html">Lessons</a></li>
+                    <li><a href="progress.html" class="active">Progress</a></li>
+                    <li><a href="tests.html">Tests</a></li>
+                    <li><a href="questions.html">Questions</a></li>
+                    <li><a href="answers.html">Answers</a></li>
+                    <li><a href="logout.html">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Add/Edit Progress</h1>
+            </header>
+            <section class="form-section">
+                <form id="progressForm" method="POST">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label for="isCompleted">Completed</label>
+                        <input type="checkbox" id="isCompleted" name="isCompleted">
+                    </div>
+                    <div class="form-group">
+                        <label for="completedAt">Completed At</label>
+                        <input type="date" id="completedAt" name="completedAt">
+                    </div>
+                    <div class="form-group">
+                        <label for="userId">User</label>
+                        <select id="userId" name="userId" required>
+                            <option value="">Select User</option>
+                            <!-- Populated by backend -->
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="progress.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            fetch(`/api/progress/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('[name="id"]').value = data.progressId;
+                    document.querySelector('[name="isCompleted"]').checked = data.isCompleted;
+                    document.querySelector('[name="completedAt"]').value = data.completedAt ? data.completedAt.split('T')[0] : '';
+                    document.querySelector('[name="userId"]').value = data.userId;
+                });
+            document.querySelector('#progressForm').action = `/api/progress/${id}`;
+            document.querySelector('#progressForm').method = 'PUT';
+        } else {
+            document.querySelector('#progressForm').action = '/api/progress';
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Data;
 using System.Threading.Tasks;
 
         namespace sahla.Controllers.Identity
@@ -44,6 +45,7 @@ using System.Threading.Tasks;
                             await _roleManger.CreateAsync(new IdentityRole("Teacher"));
                             await _roleManger.CreateAsync(new IdentityRole("Employee"));
                             await _roleManger.CreateAsync(new IdentityRole("Assistant"));
+                            await _roleManger.CreateAsync(new IdentityRole("Support"));
                             await _roleManger.CreateAsync(new IdentityRole("Student"));
 
                         }
@@ -61,6 +63,7 @@ using System.Threading.Tasks;
         public async Task<IActionResult> login([FromBody] LoginRequest loginRequest)
         {
             var appuser = await _userManager.FindByEmailAsync(loginRequest.Email);
+
             if (appuser != null)
             {
                 // ✅ تحقق إذا كان محظور
@@ -68,6 +71,7 @@ using System.Threading.Tasks;
                 {
                     return BadRequest(new { isBlocked = true, until = appuser.LockoutEnd.Value.ToString("yyyy-MM-dd HH:mm") });
                 }
+            
 
                 var result = await _userManager.CheckPasswordAsync(appuser, loginRequest.Password);
                 if (result == true)
@@ -182,9 +186,9 @@ using System.Threading.Tasks;
                         return NotFound("User not found.");
 
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var resetLink = $"{model.ClientAppUrl}/reset%20pass.html?email={Uri.EscapeDataString(model.Email)}&token={Uri.EscapeDataString(token)}";
+            var resetLink = $"{model.ClientAppUrl}/reset-password.html?email={Uri.EscapeDataString(model.Email)}&token={Uri.EscapeDataString(token)}";
 
-                    var message = $@"
+            var message = $@"
                     <h3>Reset Your Password</h3>
                     <p>Click the link below to reset your password:</p>
                     <a href='{resetLink}'>Reset Password</a>
@@ -212,12 +216,122 @@ using System.Threading.Tasks;
 
                     return BadRequest(result.Errors);
                 }
+        [HttpPost("DashboardLogin")]
+        public async Task<IActionResult> DashboardLogin([FromBody] LoginRequest loginRequest)
+        {
+            var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+            if (user == null) return NotFound("User Not Found");
+
+            if (user.LockoutEnd != null && user.LockoutEnd > DateTime.UtcNow)
+                return BadRequest(new { isBlocked = true, until = user.LockoutEnd.Value.ToString("yyyy-MM-dd HH:mm") });
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
+            if (!isPasswordValid)
+                return BadRequest(new { error = "Wrong credentials." });
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Contains("PendingApproval"))
+            {
+                return BadRequest(new { notApproved = true, message = "Your account is pending approval from the SuperAdmin." });
+            }
+            var allowedRoles = new[] { "SuperAdmin", "Admin", "Teacher", "Employee", "Assistant", "Support" };
+
+            if (!roles.Any(role => allowedRoles.Contains(role)))
+                return Unauthorized("You do not have permission to access this area.");
+
+            var token = await GenerateJwtToken(user);
+            return Ok(new { token });
+        }
+        [HttpPost("RegisterAdmins")]
+        public async Task<IActionResult> RegisterAdmins([FromBody] RegisterRequest registerRequest)
+        {
+            ApplicationUser applicationUser = registerRequest.Adapt<ApplicationUser>();
+            applicationUser.EmailConfirmed = false;
+
+            var result = await _userManager.CreateAsync(applicationUser, registerRequest.password);
+            if (!result.Succeeded) return BadRequest(result.Errors);
+
+            if (!await _roleManger.RoleExistsAsync("PendingApproval"))
+                await _roleManger.CreateAsync(new IdentityRole("PendingApproval"));
+
+            await _userManager.AddToRoleAsync(applicationUser, "PendingApproval");
+
+            var notifyJson = JsonConvert.SerializeObject(new
+            {
+                applicationUser.Email,
+                applicationUser.UserName,
+                applicationUser.Adress,
+                applicationUser.PhoneNumber,
+                RequestedAt = DateTime.UtcNow
+            });
+
+            return Ok(new { success = true, message = "Your account has been submitted for approval. Please wait for SuperAdmin confirmation." });
+        }
+        [HttpGet("GetPendingUsers")]
+        public async Task<IActionResult> GetPendingUsers()
+        {
+            var allUsers = _userManager.Users.ToList();
+            var pendingUsers = new List<object>();
+
+            foreach (var user in allUsers)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains("PendingApproval"))
+                {
+                    pendingUsers.Add(new
+                    {
+                        user.UserName,
+                        user.Email,
+                        user.PhoneNumber,
+                        user.Adress,
+                        RequestedAt = user.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm"),
+                    });
+                }
+            }
+
+            return Ok(pendingUsers);
+        }
 
 
+        [HttpPost("ApproveUser")]
+        public async Task<IActionResult> ApproveUser([FromBody] ApprovalDto model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null) return NotFound("User not found.");
 
+            if (await _userManager.IsInRoleAsync(user, "PendingApproval"))
+                await _userManager.RemoveFromRoleAsync(user, "PendingApproval");
 
+            if (!await _roleManger.RoleExistsAsync(model.Role))
+                await _roleManger.CreateAsync(new IdentityRole(model.Role));
+
+            await _userManager.AddToRoleAsync(user, model.Role);
+
+            // 💌 إرسال إشعار بالإيميل إن حبيت:
+            await _emailSender.SendEmailAsync(model.Email, "Your Account Approved", $"You have been approved as {model.Role}.");
+
+            return Ok("User approved.");
+        }
+
+        [HttpPost("RejectUser")]
+            public async Task<IActionResult> RejectUser([FromBody] ApprovalDto model)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null) return NotFound("User not found.");
+
+                await _userManager.DeleteAsync(user);
+            await _emailSender.SendEmailAsync(model.Email, "Your Account Rejected", $"You have been Rejected as {model.Role}.");
+            return Ok("User rejected and removed.");
             }
         }
+
+   
+    }
+
+
+
+
+
 
 
 
